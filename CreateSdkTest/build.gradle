@@ -1,6 +1,39 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'com.github.dcendents.android-maven'
+    id 'com.jfrog.bintray'
+}
+
+ext {
+    bintrayRepo = 'maven' // Name of the Bintray repo you created
+    bintrayName = 'com.example.examplesdk:CreateSdkTest' // Bintray package name
+
+    publishedGroupId = 'com.example.examplesdk' // Group ID of the SDK which will be added in implementation line of gradle
+    artifact = 'CreateSdkTest' // Artifact ID of the SDK which will be added in implementation line of gradle
+    libraryVersion = '1.0.1' // Version of the library you created in Bintray
+
+    libraryName = 'Create SDK Test' // It is generally the module name
+    libraryDescription = 'Utlity to use shared preference in your app.' // Small description of the library
+
+    siteUrl = 'https://github.com/viphoamt/example-sdk'
+    gitUrl = 'https://github.com/viphoamt/example-sdk.git'
+
+    developerId = 'viphoamt'
+    developerName = 'Hoa Nguyen'
+    developerEmail = 'vanhoadainhan@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+
+    //Bintray Credentials
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+    bintrayUsername = properties.getProperty('BINTRAY_USERNAME')
+    bintrayUserOrg = properties.getProperty('BINTRAY_ORG')
+    bintrayApiKey = properties.getProperty('BINTRAY_API_KEY')
 }
 
 android {
@@ -33,12 +66,14 @@ android {
 }
 
 dependencies {
-
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.2.0'
+    implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.3.0'
-    testImplementation 'junit:junit:4.+'
+    testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
+
+apply from: 'bintray.script'
